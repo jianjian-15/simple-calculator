@@ -1,6 +1,7 @@
 let currentNumber = '';
 let previousNumber = '';
 let currentOperator = '';
+let calculationHistory = [];
 
 function updateDisplay() {
   const expression = document.getElementById('expression');
@@ -63,7 +64,16 @@ function calculate() {
       return;
   }
 
-  currentNumber = result.toString();
+  const expressionText = `${num1} ${getOperatorSymbol(currentOperator)} ${num2}`;
+  const resultText = typeof result === 'number' ? result.toString() : result;
+
+  addToHistory({
+    expression: expressionText,
+    result: resultText,
+    timestamp: new Date().toLocaleTimeString()
+  });
+
+  currentNumber = resultText;
   previousNumber = '';
   currentOperator = '';
 
@@ -146,6 +156,47 @@ function highlightOperatorButton(operator) {
   });
 }
 
+function addToHistory(record) {
+  calculationHistory.unshift(record);
+  if (calculationHistory.length > 20) {
+    calculationHistory.pop();
+  }
+  renderHistory();
+}
+
+function renderHistory() {
+  const historyList = document.getElementById('historyList');
+
+  if (calculationHistory.length === 0) {
+    historyList.innerHTML = '<div class="history-empty">暂无历史记录</div>';
+    return;
+  }
+
+  historyList.innerHTML = calculationHistory.map((record, index) => `
+    <div class="history-item" onclick="useHistoryItem(${index})">
+      <div class="history-expression">${record.expression} =</div>
+      <div class="history-result">${record.result}</div>
+      <div class="history-time">${record.timestamp}</div>
+    </div>
+  `).join('');
+}
+
+function useHistoryItem(index) {
+  const record = calculationHistory[index];
+  if (record && record.result !== 'Error') {
+    currentNumber = record.result;
+    previousNumber = '';
+    currentOperator = '';
+    updateDisplay();
+  }
+}
+
+function clearHistory() {
+  calculationHistory = [];
+  renderHistory();
+  highlightButton('C');
+}
+
 document.addEventListener('keydown', function(event) {
   const key = event.key;
 
@@ -188,3 +239,5 @@ document.addEventListener('keydown', function(event) {
     event.preventDefault();
   }
 });
+
+renderHistory();
