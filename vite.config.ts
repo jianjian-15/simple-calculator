@@ -3,7 +3,7 @@ import vue from '@vitejs/plugin-vue'
 
 export default defineConfig({
   plugins: [vue()],
-  base: '/simple-calculator/',
+  base: './',
   server: {
     port: 5173,
     host: true
