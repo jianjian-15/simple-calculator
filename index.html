@@ -1,53 +1,13 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>现代计算器</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <div class="calculator">
-    <div class="display">
-      <div class="input-display" id="expression"></div>
-      <div class="result-display" id="result">0</div>
-    </div>
-
-    <div class="buttons">
-      <button class="btn-number" onclick="appendNumber('7')">7</button>
-      <button class="btn-number" onclick="appendNumber('8')">8</button>
-      <button class="btn-number" onclick="appendNumber('9')">9</button>
-      <button class="btn-operator" onclick="setOperator('+')">+</button>
-
-      <button class="btn-number" onclick="appendNumber('4')">4</button>
-      <button class="btn-number" onclick="appendNumber('5')">5</button>
-      <button class="btn-number" onclick="appendNumber('6')">6</button>
-      <button class="btn-operator" onclick="setOperator('-')">-</button>
-
-      <button class="btn-number" onclick="appendNumber('1')">1</button>
-      <button class="btn-number" onclick="appendNumber('2')">2</button>
-      <button class="btn-number" onclick="appendNumber('3')">3</button>
-      <button class="btn-operator" onclick="setOperator('*')">×</button>
-
-      <button class="btn-clear" onclick="clearAll()">C</button>
-      <button class="btn-number" onclick="appendNumber('0')">0</button>
-      <button class="btn-equal" onclick="calculate()">=</button>
-      <button class="btn-operator" onclick="setOperator('/')">÷</button>
-    </div>
-
-    <div class="history-section">
-      <div class="history-header">
-        <h3>历史记录</h3>
-        <button class="history-clear-btn" onclick="clearHistory()">清空</button>
-      </div>
-      <div class="history-list" id="historyList"></div>
-    </div>
-
-    <div class="features">
-      <p class="features-text">支持键盘输入：数字、运算符、Enter = 、Backspace 删除、Esc 清空</p>
-    </div>
-  </div>
-
-  <script src="script.js"></script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>现代计算器 v3.0</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
 </html>
