@@ -141,6 +141,30 @@ button {
   box-shadow: 0 4px 10px rgba(102, 126, 234, 0.4);
 }
 
+button.active {
+  transform: scale(0.95);
+}
+
+.btn-number.active {
+  background: #3d7ab5;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.btn-operator.active {
+  background: #ff4757;
+  box-shadow: 0 2px 8px rgba(233, 69, 96, 0.4);
+}
+
+.btn-clear.active {
+  background: #e84118;
+  box-shadow: 0 2px 8px rgba(231, 76, 60, 0.4);
+}
+
+.btn-equal.active {
+  box-shadow: 0 2px 10px rgba(102, 126, 234, 0.5);
+  background: linear-gradient(135deg, #5a6fd1 0%, #6b4da3 100%);
+}
+
 .features {
   margin-top: 15px;
   text-align: center;

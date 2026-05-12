@@ -21,6 +21,7 @@ function appendNumber(num) {
   if (currentNumber.length < 12) {
     currentNumber += num;
     updateDisplay();
+    highlightButton(num);
   }
 }
 
@@ -35,6 +36,7 @@ function setOperator(operator) {
   previousNumber = currentNumber;
   currentNumber = '';
   updateDisplay();
+  highlightOperatorButton(operator);
 }
 
 function calculate() {
@@ -67,6 +69,7 @@ function calculate() {
 
   document.getElementById('result').textContent = currentNumber;
   document.getElementById('expression').textContent = '';
+  highlightButton('=');
 }
 
 function clearAll() {
@@ -74,6 +77,36 @@ function clearAll() {
   previousNumber = '';
   currentOperator = '';
   updateDisplay();
+  highlightButton('C');
+}
+
+function deleteLastChar() {
+  if (currentNumber.length > 0) {
+    currentNumber = currentNumber.slice(0, -1);
+    updateDisplay();
+  }
+}
+
+function toggleSign() {
+  if (currentNumber && currentNumber !== '0') {
+    if (currentNumber.startsWith('-')) {
+      currentNumber = currentNumber.slice(1);
+    } else {
+      currentNumber = '-' + currentNumber;
+    }
+    updateDisplay();
+  }
+}
+
+function appendDecimal() {
+  if (!currentNumber.includes('.')) {
+    if (currentNumber === '') {
+      currentNumber = '0.';
+    } else {
+      currentNumber += '.';
+    }
+    updateDisplay();
+  }
 }
 
 function getOperatorSymbol(operator) {
@@ -85,3 +118,73 @@ function getOperatorSymbol(operator) {
   };
   return symbols[operator] || operator;
 }
+
+function highlightButton(value) {
+  const buttons = document.querySelectorAll('button');
+  buttons.forEach(button => {
+    if (button.textContent === value) {
+      button.classList.add('active');
+      setTimeout(() => button.classList.remove('active'), 150);
+    }
+  });
+}
+
+function highlightOperatorButton(operator) {
+  const symbols = {
+    '+': '+',
+    '-': '-',
+    '*': '×',
+    '/': '÷'
+  };
+  const displaySymbol = symbols[operator];
+  const buttons = document.querySelectorAll('.btn-operator');
+  buttons.forEach(button => {
+    if (button.textContent === displaySymbol) {
+      button.classList.add('active');
+      setTimeout(() => button.classList.remove('active'), 150);
+    }
+  });
+}
+
+document.addEventListener('keydown', function(event) {
+  const key = event.key;
+
+  if (key >= '0' && key <= '9') {
+    appendNumber(key);
+    event.preventDefault();
+  } else if (key === '.') {
+    appendDecimal();
+    event.preventDefault();
+  } else if (key === '+') {
+    setOperator('+');
+    event.preventDefault();
+  } else if (key === '-') {
+    setOperator('-');
+    event.preventDefault();
+  } else if (key === '*') {
+    setOperator('*');
+    event.preventDefault();
+  } else if (key === '/') {
+    event.preventDefault();
+    if (currentNumber === '') {
+      toggleSign();
+    } else {
+      setOperator('/');
+    }
+  } else if (key === 'Enter' || key === '=') {
+    calculate();
+    event.preventDefault();
+  } else if (key === 'Escape' || key === 'c' || key === 'C') {
+    clearAll();
+    event.preventDefault();
+  } else if (key === 'Backspace') {
+    deleteLastChar();
+    event.preventDefault();
+  } else if (key === '%') {
+    if (currentNumber) {
+      currentNumber = (parseFloat(currentNumber) / 100).toString();
+      updateDisplay();
+    }
+    event.preventDefault();
+  }
+});
